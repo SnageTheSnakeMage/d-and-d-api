@@ -8,10 +8,12 @@ import jakarta.ws.rs.*
 import jakarta.ws.rs.core.MediaType
 import jakarta.ws.rs.core.Response
 import java.net.URI
+import java.util.Arrays
 import jakarta.ws.rs.core.Response.Status
 import jakarta.transaction.Transactional
 import jakarta.annotation.security.RolesAllowed
 import jakarta.annotation.security.PermitAll
+import kotlin.math.log
 // import com.personal.dndAPI.tool.md5Hash.Companion.securlyStore
 // import com.personal.dndAPI.tool.md5Hash.Companion.compareTo
 
@@ -36,43 +38,41 @@ class dndRouter(val repo: dndRepo) {
     @Consumes(MediaType.APPLICATION_JSON)
     fun editMonster(inputtedMonster: Monster) : Response{
         if(inputtedMonster.id != null){
-            val id = inputtedMonster.id ?: return Response.status(Status.BAD_REQUEST.statusCode, "Missing ID").build()
-            repo.update("name = ${inputtedMonster.name},"
-            + "size = ${inputtedMonster.size}," +
-            " type = ${inputtedMonster.type}," +
-            " subtype = ${inputtedMonster.subtype}," + 
-            " alignment = ${inputtedMonster.alignment}," +
+            repo.update("name = '${inputtedMonster.name}',"
+            + "size = '${inputtedMonster.size}'," +
+            " type = '${inputtedMonster.type}'," +
+            " subtype = '${inputtedMonster.subtype}'," + 
+            " alignment = '${inputtedMonster.alignment}'," +
             " armorClass = ${inputtedMonster.armorClass}," +
             " hitPoints = ${inputtedMonster.hitPoints}," +
-            " speeds = ${inputtedMonster.speeds}," +
+            " speeds = '${inputtedMonster.speeds}'," +
             " strength = ${inputtedMonster.strength}," +
             " dexterity = ${inputtedMonster.dexterity}," +
             " constitution = ${inputtedMonster.constitution}," +
             " intelligence = ${inputtedMonster.intelligence}," +
             " wisdom = ${inputtedMonster.wisdom}," +
             " charisma = ${inputtedMonster.charisma}," +
-            " damageVulnerabilities = ${inputtedMonster.damageVulnerabilities}," +
-            " damageResistances = ${inputtedMonster.damageResistances}," +
-            " damageImmunities = ${inputtedMonster.damageImmunities}," +
-            " conditionImmunities = ${inputtedMonster.conditionImmunities}," +
-            " senses = ${inputtedMonster.senses}," +
-            " languages = ${inputtedMonster.languages}," +
+            " damageVulnerabilities = '${inputtedMonster.damageVulnerabilities}'," +
+            " damageResistances = '${inputtedMonster.damageResistances}'," +
+            " damageImmunities = '${inputtedMonster.damageImmunities}'," +
+            " conditionImmunities = '${inputtedMonster.conditionImmunities}'," +
+            " senses = '${inputtedMonster.senses}'," +
+            " languages = '${inputtedMonster.languages}'," +
             " xpReward = ${inputtedMonster.xpReward}," +
-            " specialAbilities = ${inputtedMonster.specialAbilities}," +
-            " actions = ${inputtedMonster.actions.joinToString(",")}," +
+            " specialAbilities = '${inputtedMonster.specialAbilities}'," +
+            " actions = '${inputtedMonster.actions}'," +
             " legendaryActions = ${inputtedMonster.legendaryActions}," +
             " lore = ${inputtedMonster.lore}," +
             " commonLocations = ${inputtedMonster.commonLocations}," +
             " imageURL = ${inputtedMonster.imageURL}," +
             " description = ${inputtedMonster.description}," +
-            " url = ${inputtedMonster.url} where id = ${id}" )            
-            return Response.created(URI.create("/monsters/" + id.toString())).build() 
+            " url = ${inputtedMonster.url} where id = ${inputtedMonster.id}" )            
+            return Response.created(URI.create("/monsters/" + inputtedMonster.id.toString())).build() 
         }
         else {
             return Response.status(Status.BAD_REQUEST.statusCode, "Missing ID").build()
         }
     }
-
     @GET
     @PermitAll
     @Path("/{id}")

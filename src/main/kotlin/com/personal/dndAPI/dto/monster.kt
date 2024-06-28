@@ -29,7 +29,7 @@ data class Monster(
     var languages: String? = null,
     var xpReward: Int = 0, //required
     var specialAbilities: String? = null,
-    var actions: Array<String> = arrayOf("default"), //required
+    var actions: String = "", //required
     var legendaryActions: String? = null,
     var lore: String? = null,
     var commonLocations: String? = null,
