@@ -6,7 +6,4 @@ values (100, 'Skeleton', 'Medium', 'Undead',
 "Shortbow. Ranged Weapon Attack: +4 to hit, range 80/320 ft., one target. Hit: 5 (1d6 + 2) piercing damage."}');
 
 
-insert into test_user ("id", username, password, roles) values (99, 'user', 'user', '{"user"}' );
-
-insert into test_user ("id", username, password, roles) values (100, 'admin', 'admin', '{"user","admin"}' );
 

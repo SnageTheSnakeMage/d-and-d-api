@@ -32,12 +32,41 @@ class dndRouter(val repo: dndRepo) {
     @PUT
     @RolesAllowed("user")
     @Path("/edit")
+    @Transactional
     @Consumes(MediaType.APPLICATION_JSON)
     fun editMonster(inputtedMonster: Monster) : Response{
         if(inputtedMonster.id != null){
-            var newMon = inputtedMonster
-            newMon.persist()
-            return Response.created(URI.create("/monsters/" + newMon.id.toString())).build() 
+            val id = inputtedMonster.id ?: return Response.status(Status.BAD_REQUEST.statusCode, "Missing ID").build()
+            repo.update("name = ${inputtedMonster.name},"
+            + "size = ${inputtedMonster.size}," +
+            " type = ${inputtedMonster.type}," +
+            " subtype = ${inputtedMonster.subtype}," + 
+            " alignment = ${inputtedMonster.alignment}," +
+            " armorClass = ${inputtedMonster.armorClass}," +
+            " hitPoints = ${inputtedMonster.hitPoints}," +
+            " speeds = ${inputtedMonster.speeds}," +
+            " strength = ${inputtedMonster.strength}," +
+            " dexterity = ${inputtedMonster.dexterity}," +
+            " constitution = ${inputtedMonster.constitution}," +
+            " intelligence = ${inputtedMonster.intelligence}," +
+            " wisdom = ${inputtedMonster.wisdom}," +
+            " charisma = ${inputtedMonster.charisma}," +
+            " damageVulnerabilities = ${inputtedMonster.damageVulnerabilities}," +
+            " damageResistances = ${inputtedMonster.damageResistances}," +
+            " damageImmunities = ${inputtedMonster.damageImmunities}," +
+            " conditionImmunities = ${inputtedMonster.conditionImmunities}," +
+            " senses = ${inputtedMonster.senses}," +
+            " languages = ${inputtedMonster.languages}," +
+            " xpReward = ${inputtedMonster.xpReward}," +
+            " specialAbilities = ${inputtedMonster.specialAbilities}," +
+            " actions = ${inputtedMonster.actions.joinToString(",")}," +
+            " legendaryActions = ${inputtedMonster.legendaryActions}," +
+            " lore = ${inputtedMonster.lore}," +
+            " commonLocations = ${inputtedMonster.commonLocations}," +
+            " imageURL = ${inputtedMonster.imageURL}," +
+            " description = ${inputtedMonster.description}," +
+            " url = ${inputtedMonster.url} where id = ${id}" )            
+            return Response.created(URI.create("/monsters/" + id.toString())).build() 
         }
         else {
             return Response.status(Status.BAD_REQUEST.statusCode, "Missing ID").build()

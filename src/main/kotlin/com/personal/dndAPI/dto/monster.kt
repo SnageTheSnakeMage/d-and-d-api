@@ -1,6 +1,7 @@
 package com.personal.dndAPI.dto
 
 import io.quarkus.hibernate.orm.panache.kotlin.PanacheEntity
+import io.quarkus.hibernate.orm.panache.kotlin.PanacheCompanion
 import jakarta.persistence.Entity
 import org.hibernate.type.Type
 
